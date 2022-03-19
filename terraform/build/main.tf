@@ -21,7 +21,7 @@ variable "instance_type" {
 }
 
 variable "vpc_id" {
-  default = "vpc-build"
+  default = "vpc-0b2ea4ec8edac3524"
 }
 
 variable "image_id" {
