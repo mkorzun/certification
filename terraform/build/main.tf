@@ -62,6 +62,6 @@ resource "aws_instance" "build_instance" {
   vpc_security_group_ids = ["${aws_security_group.build_group.id}"]
   subnet_id = "${var.subnet_id}"
   tags = {
-    Name = "build"
+    Name = "builder"
   }
 }
