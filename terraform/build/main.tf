@@ -70,7 +70,7 @@ resource "aws_instance" "build_instance" {
   }
 }
 
-resource "local_sensitive_file" "private_key" {
+resource "local_file" "private_key" {
   sensitive_content = tls_private_key.build.private_key_pem
   filename          = format("%s/%s/%s", abspath(path.root), ".ssh", "build-ssh-key.pem")
   file_permission   = "0600"
