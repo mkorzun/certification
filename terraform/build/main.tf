@@ -18,6 +18,7 @@ variable "subnet_id" {
 
 variable "instance_type" {
   default = "t2.micro"
+}
 
 variable "vpc_id" {
   default = "vpc-build"
