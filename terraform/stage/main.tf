@@ -32,8 +32,6 @@ resource "aws_key_pair" "stage" {
 
 resource "aws_security_group" "stage_group" {
   name        = "stage_group"
-  vpc_id      = "${var.vpc_id}"
-
   ingress {
     description = "tomcat access"
     from_port   = 0
@@ -41,7 +39,6 @@ resource "aws_security_group" "stage_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   ingress {
     description = "ssh access"
     from_port   = 22
@@ -49,7 +46,6 @@ resource "aws_security_group" "stage_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   egress {
     from_port   = 0
     to_port     = 0

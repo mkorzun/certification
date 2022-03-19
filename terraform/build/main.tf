@@ -32,8 +32,6 @@ resource "aws_key_pair" "build" {
 
 resource "aws_security_group" "build_group" {
   name        = "build_group"
-
-
   ingress {
     description = "ssh access"
     from_port   = 22
@@ -41,7 +39,6 @@ resource "aws_security_group" "build_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   egress {
     from_port   = 0
     to_port     = 0
