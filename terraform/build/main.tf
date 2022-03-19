@@ -55,7 +55,6 @@ resource "aws_instance" "build_instance" {
   instance_type = "${var.instance_type}"
   key_name = aws_key_pair.build.key_name
   vpc_security_group_ids = ["${aws_security_group.build_group.id}"]
-#  subnet_id = "${var.subnet_id}"
   tags = {
     Name = "build"
   }
