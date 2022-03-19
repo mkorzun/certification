@@ -12,16 +12,8 @@ provider "aws" {
   region = "us-east-1"
 }
 
-variable "subnet_id" {
-  default = "subnet-build"
-}
-
 variable "instance_type" {
   default = "t2.micro"
-}
-
-variable "vpc_id" {
-  default = "vpc-0b2ea4ec8edac3524"
 }
 
 variable "image_id" {
