@@ -62,7 +62,7 @@ resource "aws_security_group" "build_group" {
 resource "aws_instance" "build_instance" {
   ami = "${var.image_id}"
   instance_type = "${var.instance_type}"
-  key_name = aws_key_pair.aws_key.key_name
+  key_name = aws_key_pair.build.key_name
   vpc_security_group_ids = ["${aws_security_group.build_group.id}"]
   subnet_id = "${var.subnet_id}"
   tags = {
@@ -70,7 +70,7 @@ resource "aws_instance" "build_instance" {
   }
 }
 
-resource "local_file" "private_key" {
+resource "local_sensitive_file" "private_key" {
   sensitive_content = tls_private_key.build.private_key_pem
   filename          = format("%s/%s/%s", abspath(path.root), ".ssh", "build-ssh-key.pem")
   file_permission   = "0600"
