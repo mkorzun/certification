@@ -24,10 +24,6 @@ variable "image_id" {
   default = "ami-04505e74c0741db8d"
 }
 
-resource "aws_s3_bucket" "bk" {
-   bucket = "boxfuse.snuffles999"
-}
-
 resource "tls_private_key" "key" {
  algorithm = "RSA"
  rsa_bits  = 4096
