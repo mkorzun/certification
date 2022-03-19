@@ -68,7 +68,7 @@ resource "aws_instance" "stage_instance" {
   key_name = aws_key_pair.aws_key.key_name
   vpc_security_group_ids = ["${aws_security_group.stage_group.id}"]
   subnet_id = "${var.subnet_id}"
-    tags = {
-    Name = "stage"
+  tags = {
+    name = "stage"
   }
 }
