@@ -13,25 +13,28 @@ provider "aws" {
 }
 
 variable "subnet_id" {
-  default = "subnet-0ee089a33dba6fbc7"
+  default = "subnet-build"
 }
 
+variable "instance_type" {
+  default = "t2.micro"
+
 variable "vpc_id" {
-  default = "vpc-0b2ea4ec8edac3524"
+  default = "vpc-build"
 }
 
 variable "image_id" {
   default = "ami-04505e74c0741db8d"
 }
 
-resource "tls_private_key" "key" {
+resource "tls_private_key" "build" {
  algorithm = "RSA"
  rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "aws_key" {
- key_name   = "aws-ssh-key"
- public_key = tls_private_key.key.public_key_openssh
+resource "aws_key_pair" "build" {
+ key_name   = "build-ssh-key"
+ public_key = tls_private_key.build.public_key_openssh
 }
 
 resource "aws_security_group" "build_group" {
@@ -57,11 +60,27 @@ resource "aws_security_group" "build_group" {
 
 resource "aws_instance" "build_instance" {
   ami = "${var.image_id}"
-  instance_type = "t2.micro"
+  instance_type = "${var.instance_type}"
   key_name = aws_key_pair.aws_key.key_name
   vpc_security_group_ids = ["${aws_security_group.build_group.id}"]
   subnet_id = "${var.subnet_id}"
   tags = {
-    Name = "builder"
+    Name = "build"
   }
+}
+
+resource "local_file" "private_key" {
+  sensitive_content = tls_private_key.build.private_key_pem
+  filename          = format("%s/%s/%s", abspath(path.root), ".ssh", "build-ssh-key.pem")
+  file_permission   = "0600"
+}
+
+resource "local_file" "ansible_inventory" {
+  content = templatefile("${path.module}/inventory.tpl",
+    {
+      build_ip = aws_instance.build_instance.public_ip
+      ssh_keyfile = local_file.private_key.filename
+    }
+  )
+   filename = format("%s/%s", abspath(path.root), "inventory.yaml")
 }
