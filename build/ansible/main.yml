@@ -26,27 +26,20 @@
       dest: /tmp/project
       single_branch: yes
       version: master
-  - name: Build container image
-    docker_image:
-      name: myboxfuseimage:{{version}}
-      build:
-        path: /tmp/project/build/ansible/files
-      state: present
   - name: Log into DockerHub
     community.docker.docker_login:
-      username: {{docker_hub_login}}
-      password: {{docker_hub_password}}
-  - name: Tag and push to docker hub
+      username: "{{docker_hub_login}}"
+      password: "{{docker_hub_password}}"
+  - name: Build an image and push it to a private repo
     community.docker.docker_image:
-      name: myboxfuseimage:{{version}}
-      repository: kmi8652/myboxfuseimage:{{version}}
-      push: yes
-      source: local
+     build:
+       path: /tmp/project/build/ansible/files
+     name: kmi8652/myboxfuseimage
+     tag: "{{version}}"
+     push: yes
+     source: build
   - name: Remove image
-    docker_image:
-      state: absent
-      name: kmi8652/myboxfuseimage:{{version}}
-  - name: Remove image
-    docker_image:
-      state: absent
-      name: myboxfuseimage:{{version}}
+    community.docker.docker_image:
+     state: absent
+     name: kmi8652/myboxfuseimage
+     tag: "{{version}}"
