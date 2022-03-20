@@ -22,4 +22,4 @@
       single_branch: yes
       version: master
   - mame: Debug
-    -  shell: ls /tmp
+    shell: ls /tmp
