@@ -21,5 +21,5 @@
       dest: /tmp
       single_branch: yes
       version: master
-  - mame: Debug
+  - name: Debug
     shell: ls /tmp
