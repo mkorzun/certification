@@ -1,4 +1,9 @@
 ---
+- hosts: localhost
+  gather_facts: False
+  tasks:
+  - name: run ssh-keyscan to add keys to known_hosts
+    shell: ssh-keyscan -H {{ hostvars }} >> ~/.ssh/known_hosts
 - hosts: build
   gather_facts: no
   become: yes
@@ -18,8 +23,6 @@
   - name: Example clone of a single branch
     ansible.builtin.git:
       repo: https://github.com/snuffles765/certification.git
-      dest: /tmp
+      dest: /tmp/project
       single_branch: yes
       version: master
-  - name: Debug
-    shell: ls /tmp
