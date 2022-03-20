@@ -1,0 +1,54 @@
+---
+- hosts: build
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Install docker and some dependencies
+    apt:
+     name: python3-pip, docker.io
+     state: present
+     update_cache: yes
+  - name: Start docker service
+    service:
+     name: docker
+     state: started
+  - name: Install docker python module
+    pip:
+     name: docker
+  - name: Example clone of a single branch
+    ansible.builtin.git:
+      repo: https://github.com/snuffles765/certification.git
+      dest: /tmp
+      single_branch: yes
+      version: master
+  - mame: Debug
+    -  shell: ls /tmp
+#  - name: Upload dockerfile to build host
+#    synchronize: src=dockerfiles/build dest=/tmp
+#  - name: Build container image
+#    docker_image:
+#     name: build_boxfuse
+#     build:
+#     path: /tmp/build
+#     state: present
+#  - name: Start docker container
+#    docker_container:
+#     name: build_boxfuse
+#     image: build_boxfuse
+#     auto_remove: yes
+#     state: started
+#     volumes:
+#      - /tmp/boxfuse:/data
+#  - name: Sleep for 10 seconds and continue with play
+#    wait_for:
+#     timeout: 10
+#    delegate_to: localhost
+#  - name: Remove image
+#    docker_image:
+#     state: absent
+#     name: build_boxfuse:latest
+#  - name: Fetch app
+#    fetch:
+#     src: /tmp/boxfuse/hello-1.0.war
+#     dest: /tmp/hello-1.0.war
+#     flat: yes
