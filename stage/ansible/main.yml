@@ -34,8 +34,8 @@
     community.docker.docker_container:
       name: myboxfuse
       image: kmi8652/myboxfuseimage:"{{version}}"
-        ports:
-          - "8080:8080"
-        recreate: yes
-        state: started
+      ports:
+        - "8080:8080"
+      recreate: yes
+      state: started
 
