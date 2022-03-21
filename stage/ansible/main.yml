@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  gather_facts: False
+  tasks:
+  - name: run ssh-keyscan to add keys to known_hosts
+    shell: ssh-keyscan -H {{ hostvars }} >> ~/.ssh/known_hosts
+- hosts: stage
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: Install docker and some dependencies
+    apt:
+     name: python3-pip, docker.io
+     state: present
+     update_cache: yes
+  - name: Start docker service
+    service:
+     name: docker
+     state: started
+  - name: Install docker python module
+    pip:
+     name: docker
+  - name: Example clone of a single branch
+    ansible.builtin.git:
+      repo: https://github.com/snuffles765/certification.git
+      dest: /tmp/project
+      single_branch: yes
+      version: master
+  - name: Log into DockerHub
+    community.docker.docker_login:
+      username: "{{docker_hub_login}}"
+      password: "{{docker_hub_password}}"
+  - name: Create a data container
+    community.docker.docker_container:
+      name: myboxfuse
+      image: kmi8652/myboxfuseimage:"{{version}}"
+        ports:
+          - "8080:8080"
+        recreate: yes
+        state: started
+
