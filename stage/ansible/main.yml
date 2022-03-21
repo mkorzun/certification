@@ -33,7 +33,7 @@
   - name: Create a data container
     community.docker.docker_container:
       name: myboxfuse
-      image: kmi8652/myboxfuseimage:"{{version}}"
+      image: kmi8652/myboxfuseimage:{{version}}
       ports:
         - "8080:8080"
       recreate: yes
