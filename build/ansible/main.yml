@@ -34,12 +34,15 @@
     community.docker.docker_image:
      build:
        path: /tmp/project/build/ansible/files
+       args:
+         tag_stageimage: "{{tag_stageimage}}"
+         tag_buildimage: "{{tag_buildimage}}"
      name: kmi8652/myboxfuseimage
-     tag: "{{version}}"
+     tag: "{{tag_app}}"
      push: yes
      source: build
   - name: Remove image
     community.docker.docker_image:
      state: absent
      name: kmi8652/myboxfuseimage
-     tag: "{{version}}"
+     tag: "{{tag_app}}"
