@@ -8,7 +8,10 @@ pipeline {
 
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-        string(name: 'version', defaultValue: '', description: 'Assign a version')
+        string(name: 'tag_app', defaultValue: '', description: 'Assign the application version')
+        string(name: 'tag_stageimage', defaultValue: '1.0', description: 'Assign the stageimage version')
+        string(name: 'tag_buildimage', defaultValue: '1.0', description: 'Assign the buildimage version')
+
     }
 
     agent  any
@@ -96,19 +99,17 @@ pipeline {
             }
         }
 
-        stage('Ansible Deploy in Build ') {
+        stage('Ansible, deploy in Build ') {
 
             steps {
-                sh 'ansible-playbook build/ansible/main.yml -i build/terraform/inventory.yaml -e docker_hub_login=${docker_hub_login} -e docker_hub_password=${docker_hub_password} -e version=${version}'
+                sh 'ansible-playbook build/ansible/main.yml -i build/terraform/inventory.yaml -e docker_hub_login=${docker_hub_login} -e docker_hub_password=${docker_hub_password} -e tag_app=${tag_app} -e tag_stageimage=${tag_stageimage} -e tag_buildimage=${tag_buildimage}'
             }
         }
-        stage('Ansible Deploy in Stage ') {
+        stage('Ansible, deploy in Stage ') {
 
             steps {
-                sh 'ansible-playbook stage/ansible/main.yml -i stage/terraform/inventory.yaml -e docker_hub_login=${docker_hub_login} -e docker_hub_password=${docker_hub_password} -e version=${version}'
+                sh 'ansible-playbook stage/ansible/main.yml -i stage/terraform/inventory.yaml -e docker_hub_login=${docker_hub_login} -e docker_hub_password=${docker_hub_password} -e tag_app=${tag_app}'
             }
         }
     }
 }
-
-
