@@ -22,7 +22,7 @@
      name: docker
   - name: Copy source with configs
     ansible.builtin.git:
-      repo: https://github.com/snuffles765/certification.git
+      repo: "{{repository_of_this_project}}"
       dest: /tmp/project
       single_branch: yes
       version: master
