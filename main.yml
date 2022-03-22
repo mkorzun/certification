@@ -20,7 +20,7 @@
   - name: Install docker python module
     pip:
      name: docker
-  - name: Example clone of a single branch
+  - name: Copy source with configs
     ansible.builtin.git:
       repo: https://github.com/snuffles765/certification.git
       dest: /tmp/project
