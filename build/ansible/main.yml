@@ -39,12 +39,12 @@
          tag_buildimage: "{{tag_buildimage}}"
          buildimage_registry: "{{buildimage_registry}}"
          stageimage_registry: "{{stageimage_registry}}"
-     name: kmi8652/myboxfuseimage
+     name: "{{app_registry}}"
      tag: "{{tag_app}}"
      push: yes
      source: build
   - name: Remove image
     community.docker.docker_image:
      state: absent
-     name: kmi8652/myboxfuseimage
+     name: "{{app_registry}}"
      tag: "{{tag_app}}"
