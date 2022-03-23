@@ -37,8 +37,6 @@
        args:
          tag_stageimage: "{{tag_stageimage}}"
          tag_buildimage: "{{tag_buildimage}}"
-         buildimage_registry: "{{buildimage_registry}}"
-         stageimage_registry: "{{stageimage_registry}}"
      name: kmi8652/myboxfuseimage
      tag: "{{tag_app}}"
      push: yes
