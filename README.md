@@ -1,0 +1,2 @@
+This project creates two instances in AWS Cloud for the purpose of building and deploying a java application.
+The "global" section contains the code for creating the terraform workspace. Also there is a code for creating docker build and stage images.
